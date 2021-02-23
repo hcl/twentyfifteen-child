@@ -18,7 +18,7 @@ function mathjax_load(){
 function text_autospace_js() {
 	wp_register_script(
 		'text_autospace', 
-		get_stylesheet_directory_uri().'/js/text-autospace-new.min.js', 
+		get_stylesheet_directory_uri().'/js/text-autospace.min.js', 
 		array('jquery'),
 		null,
 		false
