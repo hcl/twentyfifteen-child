@@ -19,6 +19,7 @@ cp -R twentyfifteen-child-master /path/to/your/wordpress/wp-content/themes/
 3. Added MathJax for LaTeX flavor equation display. Fixed url 404 error when loading. Load main js only when MathJax is needed.
 4. Added text-autospace.js and its related css for adding space between the ideographic and non-ideographic text.
 5. Replace original Google Fonts API with self-hosted fonts.
+6. Add dark mode using original `dark` color scheme.
 
 ## License
 This theme was licensed under GNU Public License v2 or later.
