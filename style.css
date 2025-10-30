@@ -11,25 +11,3 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  twenty-fifteen-child
 */
-
-@import url('../twentyfifteen/style.css');
-
-/* Adding space for Chinese character */
-
-body.han-la hanla:after {
-	content: " ";
-	display: inline;
-	font-size: 0.89em;
-}
-
-body.han-la code hanla,
-body.han-la pre hanla,
-body.han-la kbd hanla,
-body.han-la samp hanla {
-	display: none;
-}
-
-body.han-la ol > hanla,
-body.han-la ul > hanla {
-	display: none;
-} 

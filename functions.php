@@ -1,36 +1,53 @@
 <?php
 
-function twentyfifteen_fonts_url() {
-	$fonts_url = get_stylesheet_directory_uri().'/css/fonts.css';
-	return $fonts_url;
+require_once get_theme_file_path( 'inc/shortcode.php' );
+
+add_action( 'wp_enqueue_scripts', 'twentyfifteen_child_enqueue_styles' );
+
+function twentyfifteen_child_enqueue_styles() {
+	wp_enqueue_style( 
+		'twentyfifteen-parent-style', 
+		get_parent_theme_file_uri( 'style.css' )
+	);
 }
 
-function text_autospace_style($classes){
-	array_push($classes,'han-la');
-	return $classes;
-}
+add_action( 'wp_enqueue_scripts', 'twentyfifteen_child_text_autospace' );
 
-function mathjax_load(){
-	$load_mathjax_js_url = get_stylesheet_directory_uri().'/js/load_mathjax.js';
-	wp_enqueue_script('mathjax', $load_mathjax_js_url, array('jquery'), '1.0', false);
-}
-
-function text_autospace_js() {
+function twentyfifteen_child_text_autospace() {
+	wp_enqueue_style( 
+		'twentyfifteen-text-autospace-style', 
+		get_theme_file_uri( '/css/text-autospace.css' )
+	);
 	wp_register_script(
-		'text_autospace', 
-		get_stylesheet_directory_uri().'/js/text-autospace.min.js', 
+		'text_autospace_loader', 
+		get_theme_file_uri( '/js/text-autospace-loader.js' ), 
 		array('jquery'),
 		null,
 		false
 	);
-	wp_enqueue_script('text_autospace');
+	wp_enqueue_script('text_autospace_loader');
+	wp_localize_script(
+		'text_autospace_loader',
+		'TwentyFifteenChildData', 
+		array(
+			'stylesheet_directory_uri' => get_stylesheet_directory_uri(),
+		)
+	);
 }
-add_action('wp_enqueue_scripts','text_autospace_js');
-add_action('wp_footer','mathjax_load');
 
-add_filter('body_class', 'text_autospace_style');
+function twentyfifteen_child_text_autospace_body_class($classes){
+	array_push($classes,'han-la');
+	return $classes;
+}
+
+add_action('wp_footer', 'twentyfifteen_child_mathjax_load');
+function twentyfifteen_child_mathjax_load(){
+	$load_mathjax_js_url = get_theme_file_uri( '/js/mathjax-loader.min.js' );
+	wp_enqueue_script('mathjax', $load_mathjax_js_url, array('jquery'), '1.0', false);
+}
+
+add_filter('body_class', 'twentyfifteen_child_text_autospace_body_class');
 add_filter('xmlrpc_enabled', '__return_false');
-
 
 function twentyfifteen_child_dark_mode() {
 	// Get 'dark' color scheme
@@ -59,8 +76,6 @@ function twentyfifteen_child_dark_mode() {
 		{$color_scheme_css}
 	}
 CSS;
-	wp_register_style( 'twentyfifteen-child-style', false, array('twentyfifteen-style') );
-	wp_enqueue_style( 'twentyfifteen-child-style' );
-	wp_add_inline_style( 'twentyfifteen-child-style', $dark_mode_css );
+	wp_add_inline_style( 'twentyfifteen-parent-style', $dark_mode_css );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_child_dark_mode' );
