@@ -9,6 +9,9 @@ function twentyfifteen_child_enqueue_styles() {
 		'twentyfifteen-parent-style', 
 		get_parent_theme_file_uri( 'style.css' )
 	);
+	wp_dequeue_style( 'twentyfifteen-block-style' );
+	wp_dequeue_style( 'wp-block-library' );
+	wp_dequeue_style( 'wp-block-library-theme' );
 }
 
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_child_text_autospace' );
@@ -79,3 +82,9 @@ CSS;
 	wp_add_inline_style( 'twentyfifteen-parent-style', $dark_mode_css );
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_child_dark_mode' );
+
+add_action ( 'after_setup_theme', 'twentyfifteen_child_remove_features' );
+function twentyfifteen_child_remove_features() {
+        remove_theme_support( 'wp-block-styles' );
+        remove_theme_support( 'widgets-block-editor' );
+}
